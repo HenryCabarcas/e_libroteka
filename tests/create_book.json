@@ -1,0 +1,11 @@
+{
+  "book": {
+    "ISBN": "1000000011231",
+    "title": "Test Book",
+    "volume": "First",
+    "gender": "Terror",
+    "editorial": "HOMIES",
+    "formato": "Imaginary",
+    "resume": "Suppose this is a book, not, really, use your imagination"
+  }
+}

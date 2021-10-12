@@ -25,5 +25,9 @@ urlpatterns = [
     path('create-book/', views.BookRegisterView.as_view()),
     path('create-comment/', views.CommentRegisterView.as_view()),
     path('register/', views.UserRegisterView.as_view()),
-    path('get-book/', views.GetBook.as_view())
+    path('get-book/', views.GetBook.as_view()),
+    path('login/', TokenObtainPairView.as_view()),
+    path('refresh/', TokenRefreshView.as_view()),
+    path('get-comment/', views.GetComment.as_view()),
 ]
+

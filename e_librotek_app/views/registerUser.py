@@ -13,7 +13,7 @@ class UserRegisterView(views.APIView):
             "code": 201
         }
         try:
-            serializer = UserSerializer(data=request.data["user"])
+            serializer = UserSerializer(data=request.data)
             serializer.is_valid(raise_exception=True)
             serializer.save()
             tokenData = {
@@ -28,6 +28,6 @@ class UserRegisterView(views.APIView):
                 "status": "Error",
                 "message": "There is an error with the request",
                 "code": 500,
-                "error": " ".join(str(e.args))
+                "errors": e.args
             }
             return Response(res, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

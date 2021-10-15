@@ -8,12 +8,11 @@ from e_librotek_app.models import Book
 from e_librotek_app.serializers import BookSerializer
 
 
-class GetBook(generics.RetrieveAPIView):
+class BookView(generics.RetrieveAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = (AllowAny,)
-    
-            
+
     def get(self, request, *args, **kwargs):
         valid_data = {}
         try:
@@ -69,3 +68,31 @@ class GetBook(generics.RetrieveAPIView):
                     self.serializer_class, obj=books[i])
                 res["result"].append(serialized.copy())
         return Response(res, status.HTTP_200_OK)
+
+    def post(self, request, *args, **kwargs):
+        res = {
+            "status": "Success",
+            "message": "The Book was successfully registered!",
+            "code": 201
+        }
+        try:
+            serializer = BookSerializer(data=request.data["book"])
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            '''
+            tokenData = {
+                "username": request.data['username'],
+                "password": request.data['password']
+            }
+            tokenSerializer = TokenObtainPairSerializer(data=tokenData)
+            tokenSerializer.is_valid(raise_exception=True)
+            '''
+        except Exception as e:
+            res = {
+                "status": "Error",
+                "message": "There is an error with the request",
+                "code": 500,
+                "error": " ".join(str(e.args))
+            }
+
+        return Response(res, status=status.HTTP_201_CREATED)

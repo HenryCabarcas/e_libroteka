@@ -1,22 +1,19 @@
-# Librentary
-Inventario de libros para seleccionar y guardar tus libros favoritos, proyecto pensado para MinTic 2022.
+# e_libroteka
 
+## Project setup
+```
+npm install
+```
 
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
 
-## Requerimientos mínimos
+### Compiles and minifies for production
+```
+npm run build
+```
 
-
-
-## Arquitectura del proyecto
-
-
-
-## Tecnologías utilizadas
-
-
-
-### Front End
-
-
-
-### Back End
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).

@@ -5,14 +5,16 @@ from rest_framework import serializers
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
-        fields = ['book', 'score', 'comment',
+        fields = ['id', 'book', 'score', 'comment', 'user',
                   'creationDate', 'modificationDate']
 
     def to_representation(self, obj):
+        print(obj)
         comment = Comment.objects.get(id=obj.id)
         return {
             "id": comment.id,
-            "ISBN": comment.book,
+            "ISBN": comment.book.ISBN,
+            "user": comment.user.username,
             "score": comment.score,
             "comment": comment.comment,
             "creationDate": comment.creationDate,

@@ -1,6 +1,5 @@
 from django.db import models
 from datetime import date, datetime
-from django.utils import timezone
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from django.contrib.auth.hashers import make_password
 
@@ -37,7 +36,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     lastname = models.CharField(
         'lastname', max_length=25, null=False, default='User')
     password = models.CharField('password', max_length=256, null=False)
-    signUp = models.DateField('signUp', default=timezone.localdate())
+    signUp = models.DateTimeField('signUp', default=datetime.now())
     lastLogin = models.DateTimeField('lastLogin', default=datetime.now())
 
     def save(self, **kwargs):

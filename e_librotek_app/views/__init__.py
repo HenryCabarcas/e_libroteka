@@ -1,4 +1,3 @@
-from .registerComment import CommentRegisterView
 from .registerUser import UserRegisterView
-from .getComments import GetComment
+from .Comments import CommentView
 from .Book import BookView

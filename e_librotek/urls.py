@@ -22,11 +22,9 @@ from e_librotek_app import views
 from e_librotek_app.views.registerUser import UserRegisterView
 
 urlpatterns = [
-    path('create-comment/', views.CommentRegisterView.as_view()),
     path('register/', views.UserRegisterView.as_view()),
     path('book/', views.BookView.as_view()),
     path('login/', TokenObtainPairView.as_view()),
     path('refresh/', TokenRefreshView.as_view()),
-    path('get-comment/', views.GetComment.as_view()),
+    path('comment/', views.CommentView.as_view()),
 ]
-

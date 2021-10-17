@@ -1,5 +1,6 @@
 from django.db import models
 from .book import Book
+from .user import User
 import datetime
 
 
@@ -11,3 +12,5 @@ class Comment(models.Model):
     comment = models.CharField('comment', max_length=500)
     creationDate = models.DateTimeField(default=datetime.datetime.now())
     modificationDate = models.DateTimeField(default=datetime.datetime.now())
+    user = models.ForeignKey(User, related_name='user',
+                             on_delete=models.CASCADE, default="null")

@@ -20,6 +20,7 @@ class BookSerializer(serializers.ModelSerializer):
             "editorial": book.editorial,
             "format": book.formato,
             "resume": book.resume,
+            "url": book.url,
             "comments": [
                 {
                     "id": item.id,

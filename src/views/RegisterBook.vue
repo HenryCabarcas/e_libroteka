@@ -1,6 +1,7 @@
 <template>
   <div id="main">
-    <div id="container">
+    <div id="container" class="blur">
+      <h1>Register Book</h1>
       <div id="fields">
         <va-input
           class="mb-4"
@@ -27,10 +28,8 @@
           max="15"
           min="1"
           label="Volume"
+          track-label-visible
         >
-          <template #append>
-            <va-input type="number" v-model="volume" @input="verifyVolume"></va-input>
-          </template>
         </va-slider>
         <va-input
           class="mb-4"
@@ -47,7 +46,13 @@
           searchable
         />
 
-        <va-select class="mb-4" v-model="format" :options="formatList" />
+        <va-select
+          class="mb-4"
+          label="Select book format"
+          v-model="format"
+          :options="formatList"
+        />
+        <va-input class="mb-4" v-model="url" label="Url" placeholder="Book url." />
         <va-input
           class="mb-4"
           v-model="resume"
@@ -71,9 +76,7 @@
 </template>
 
 <script>
-import Input from "@/components/Input.vue";
 import axios from "axios";
-import * as vuestic from "vuestic-ui";
 
 export default {
   name: "RegisterBook",
@@ -86,6 +89,7 @@ export default {
       gender: "",
       format: "any",
       resume: "",
+      url: "",
       ISBNmessage: "Insert a number.",
       formatList: ["any", "pdf", "e-book", "web page", "audiobook"],
       genderList: [
@@ -120,14 +124,13 @@ export default {
         "memoir",
         "queer ,",
       ],
+      volumeMax: 15,
+      volumeMin: 1,
     };
-  },
-  components: {
-    Input,
   },
   methods: {
     registerBook(vaToast) {
-      if (this.isbn.length > 0 && this.title.length > 0) {
+      if ((this.isbn.length == 10 || this.isbn.length == 13) && this.title.length > 0) {
         let body = {
           book: {
             ISBN: this.isbn,
@@ -137,10 +140,11 @@ export default {
             editorial: this.editorial.length > 0 ? this.editorial : "Any",
             format: this.format.length > 0 ? this.format : "Any",
             resume: this.resume.length > 0 ? this.resume : "Any",
+            url: this.url.length > 0 ? this.url : null,
           },
         };
         axios
-          .post("http://localhost:8000/book/", body)
+          .post("http://localhost:8000/post-book/", body)
           .then((response) => {
             console.log(response.data);
             this.message = response.data;
@@ -150,12 +154,17 @@ export default {
             });
           })
           .catch((response) => {
+            console.log(response);
             vaToast.init({
               message: "The book cannot be registered",
               color: "danger",
             });
           });
       } else {
+        vaToast.init({
+          message: "Please verify the filled data.",
+          color: "danger",
+        });
       }
     },
     verifyVolume() {
@@ -166,12 +175,13 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 #main {
   display: block;
   align-content: center;
   text-align: center;
   align-items: center;
+  padding: 10%;
 }
 #container {
   display: flex;
@@ -195,5 +205,8 @@ export default {
   align-content: stretch;
   padding-left: 10px;
   padding-right: 0;
+}
+h1 {
+  font-size: 24pt;
 }
 </style>

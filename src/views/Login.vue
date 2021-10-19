@@ -8,14 +8,10 @@ export default {
   data() {
     return {
       user: "",
-      password: ""
-    }
-  }
-}
+      password: "",
+    };
+  },
+};
 </script>
 
-<style>
-h1 {
-  color: red;
-}
-</style>
+<style></style>

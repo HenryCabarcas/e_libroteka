@@ -86,13 +86,13 @@ class BookView(generics.RetrieveAPIView):
             return response(500, messages=["There is an internal error", *e.args])
 
     def post(self, request, *args, **kwargs):
-        try:
-            token = request.META.get('HTTP_AUTHORIZATION')[7:]
-            tokenBackend = TokenBackend(
-                algorithm=settings.SIMPLE_JWT['ALGORITHM'])
-            tokenBackend.decode(token, verify=False)
-        except Exception as e:
-            return response(400, messages=["There is no Auth token, it's REQUIRED  for this operation.", *e.args])
+        # try:
+        #     token = request.META.get('HTTP_AUTHORIZATION')[7:]
+        #     tokenBackend = TokenBackend(
+        #         algorithm=settings.SIMPLE_JWT['ALGORITHM'])
+        #     tokenBackend.decode(token, verify=False)
+        # except Exception as e:
+        #     return response(400, messages=["There is no Auth token, it's REQUIRED  for this operation.", *e.args])
         try:
             if "book" not in request.data.keys():
                 return response(400, messages=["The key 'book' wasn't found in the request body (REQUIRED) -> { ... 'book' : {...} ... }"])

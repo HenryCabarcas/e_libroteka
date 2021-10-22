@@ -1,0 +1,33 @@
+-- "E_Librotek".libro definition
+
+-- Drop table
+
+-- DROP TABLE "E_Librotek".libro;
+
+CREATE TABLE "E_Librotek".libro (
+	idlibro int4 NOT NULL,
+	nombrelibro varchar(45) NOT NULL,
+	generolibro varchar(45) NOT NULL,
+	volumenlibro varchar(45) NOT NULL,
+	link_libro varchar(200) NOT NULL,
+	CONSTRAINT libro_pkey PRIMARY KEY (idlibro)
+);
+
+
+-- "E_Librotek".comentario definition
+
+-- Drop table
+
+-- DROP TABLE "E_Librotek".comentario;
+
+CREATE TABLE "E_Librotek".comentario (
+	fk_idlibro int4 NOT NULL,
+	comentario varchar(45) NULL,
+	valoracion int4 NULL,
+	fecha date NULL
+);
+
+
+-- "E_Librotek".comentario foreign keys
+
+ALTER TABLE "E_Librotek".comentario ADD CONSTRAINT fk_libro FOREIGN KEY (fk_idlibro) REFERENCES "E_Librotek".libro(idlibro);

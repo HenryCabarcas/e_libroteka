@@ -2,7 +2,7 @@
   <nav id="navbar" class="blur">
     <div id="navbar-left">
       <router-link to="/">
-        <va-button flat> Home </va-button>
+        <img id="e-libroteka" src="@/assets/ELibroteka.png" alt="e-libroteka" />
       </router-link>
       <router-link to="/about">
         <va-button flat> About </va-button>
@@ -22,9 +22,24 @@
 </template>
 <script>
 import SearchBar from "@/components/SearchBar.vue";
+import axios from "axios";
 export default {
   name: "App",
   components: { SearchBar },
+  data() {
+    return {
+      bg_url: ""
+    }
+  },
+  beforeCreate() {
+    let apiKey = "VKS5Pto4LE5EmgloPZKASfuGUpMbPYrR4lwCwJGERTw"
+    axios
+      .get("https://api.unsplash.com/photos/random?query=read&orientation=landscape&client_id=" + apiKey)
+      .then(response => {
+        this.bg_url = response.data.urls.regular;
+        document.getElementById("app").style.backgroundImage = `url('${this.bg_url}')`;
+      })
+  }
 };
 </script>
 <style lang="scss">
@@ -38,10 +53,8 @@ export default {
   text-align: center;
   color: #2c3e50;
   padding-top: 50px;
-  background-image: url("./assets/back_clear.svg");
-  background-size: 400px;
-  background-repeat: repeat;
-  background-attachment: fixed;
+  background-size: 100%;
+  min-height: 100vh;
 }
 #navbar {
   position: fixed;
@@ -56,7 +69,7 @@ export default {
   align-items: center;
   height: 50px;
   background: rgba(255, 255, 255, 0.562);
-
+  user-select: none;
   border-bottom: 1px solid rgba(255, 255, 255, 0.18);
 }
 #navbar > div {
@@ -65,13 +78,25 @@ export default {
   padding: 0.75rem;
 }
 #navbar-left {
-  display: block;
+  display: flex;
+  flex-direction: row;
+  div,
+  img {
+    display: block;
+    margin-right: 4px;
+    color: black;
+    cursor: pointer;
+  }
 }
 #navbar-center {
-  display: block;
-  flex: 1;
+  display: flex;
+  width: 70%;
 }
 #navbar-right {
   display: block;
+}
+#e-libroteka {
+  display: inline-block;
+  height: 100%;
 }
 </style>

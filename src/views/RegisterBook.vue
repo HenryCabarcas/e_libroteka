@@ -1,12 +1,12 @@
 <template>
   <div id="main">
-    <div id="container" class="blur">
+    <div id="container">
       <h1>Register Book</h1>
       <div id="fields">
         <va-input
           class="mb-4"
           v-model="title"
-          :rules="[(title) => title.length >= 2 || `Please insert a book title.`]"
+          :rules="[title => title.length >= 2 || `Please insert a book title.`]"
           label="Title"
           placeholder="Book title"
         />
@@ -15,11 +15,14 @@
           v-model="isbn"
           :messages="ISBNmessage"
           :rules="[
-            (isbn) =>
-              isbn.length == 10 || isbn.length == 13 || `The ISBN number is invalid.`,
+            isbn =>
+              isbn.length == 10 ||
+              isbn.length == 13 ||
+              `The ISBN number is invalid.`
           ]"
           label="ISBN"
           placeholder="Book ISBN"
+          mask="numeral"
         />
         <va-slider
           class="mb-4"
@@ -52,7 +55,12 @@
           v-model="format"
           :options="formatList"
         />
-        <va-input class="mb-4" v-model="url" label="Url" placeholder="Book url." />
+        <va-input
+          class="mb-4"
+          v-model="url"
+          label="Url"
+          placeholder="Book url."
+        />
         <va-input
           class="mb-4"
           v-model="resume"
@@ -60,13 +68,17 @@
           label="Resume"
           placeholder="Book Resume"
           :rules="[
-            (resume) =>
-              resume.length <= 500 || `The maximum length of characters is 500.`,
+            resume =>
+              resume.length <= 500 || `The maximum length of characters is 500.`
           ]"
         />
       </div>
       <div id="buttons" class="mb-2">
-        <va-button color="info" gradient class="mr-4" @click="registerBook($vaToast)"
+        <va-button
+          color="info"
+          gradient
+          class="mr-4"
+          @click="registerBook($vaToast)"
           >Register</va-button
         >
         <va-button color="danger" gradient class="mr-4">Cancel</va-button>
@@ -122,7 +134,7 @@ export default {
         "series",
         "lgbt",
         "memoir",
-        "queer ,",
+        "queer",
       ],
       volumeMax: 15,
       volumeMin: 1,
@@ -175,13 +187,13 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 #main {
   display: block;
   align-content: center;
   text-align: center;
   align-items: center;
-  padding: 10%;
+  padding-top: 5%;
 }
 #container {
   display: flex;
@@ -189,10 +201,16 @@ export default {
   align-items: center;
   align-self: center;
   max-width: 1000px;
-  box-shadow: 20px 20px 40px #c2c2c2, -20px -20px 40px #ffffff;
   border-radius: 12px;
   margin-left: auto;
   margin-right: auto;
+  background-color: rgb(255, 255, 255);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  padding: 2% 1%;
+  h1 {
+    font-size: 24pt;
+  }
 }
 #fields {
   width: 100%;

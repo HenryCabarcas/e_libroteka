@@ -1,5 +1,5 @@
 <template>
-  <div id="search-bar">
+  <div id="nav-search-bar">
     <va-input
       v-model="query"
       placeholder="Search"
@@ -7,7 +7,7 @@
       @blur="clicked(false)"
     />
   </div>
-  <div id="results" v-if="showList">
+  <div id="nav-results" v-if="showList">
     <div v-for="item in this.results" :key="item.id">
       <SearchBarItem
         :title="item.volumeInfo.title"
@@ -59,17 +59,40 @@ export default {
 };
 </script>
 
-<style>
-#results {
+<style lang="scss">
+#nav-search-bar {
+  display: block;
+  width: 100%;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.479);
+  border-radius: 100px;
+  border: 1px solid transparent;
+  backdrop-filter: blur(5px);
+  margin: 5px 4%;
+  -webkit-backdrop-filter: blur(5px);
+  * {
+    border: none;
+    background-color: transparent;
+    height: 100%;
+  }
+}
+#nav-results {
   position: absolute;
   display: block;
   align-self: center;
   align-items: center;
   top: 100%;
   left: 0;
-  width: 100%;
-  padding: 1rem;
-  background-color: aqua;
+  right: 0;
+  overflow: hidden;
+  margin: 6px 15%;
+  border-radius: 12px;
+  background-color: rgba(255, 255, 255, 0.842);
+  backdrop-filter: blur(2.5px);
+  -webkit-backdrop-filter: blur(2.5px);
+  box-shadow: 20px 20px 60px #0000009b, -20px -20px 60px#0303032F;
   z-index: 12;
 }
 </style>

@@ -3,8 +3,7 @@
     <span class="result-title">
       {{ title }}
     </span>
-    <span v-if="author.length > 1">-</span>
-    <span class="result-author">
+    <span class="result-author" v-if="author.length > 1">
       {{ author }}
     </span>
   </div>
@@ -23,13 +22,15 @@ export default {
 <style>
 .result-container {
   position: relative;
-  display: flex;
-  align-content: center;
+  display: grid;
+  grid-column-gap: 10px;
+  text-align: left;
+  vertical-align: center;
   align-items: center;
-  justify-content: stretch;
+  grid-template-columns: 50% 50%;
   width: 100%;
+  height: 48px;
   cursor: pointer;
-  padding: 0.5rem 1rem;
 }
 .result-container:hover {
   background-color: rgba(0, 0, 0, 0.15);
@@ -42,8 +43,14 @@ export default {
 }
 .result-title {
   font-weight: 600;
+  grid-column-start: 1;
+  grid-column-end: 2;
+  padding: 0 1rem;
+  margin: 2px 8px;
 }
 .result-author {
   color: gray;
+  grid-column-start: 2;
+  grid-column-end: 3;
 }
 </style>

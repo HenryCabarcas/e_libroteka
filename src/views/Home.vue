@@ -1,25 +1,28 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue App" />
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue App" />
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue App" />
+    <img src="@/assets/banner.png" id="banner" />
+    <SearchService></SearchService>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
+import SearchService from "@/components/SearchService.vue";
 
 export default {
   name: "Home",
   components: {
-    HelloWorld,
+    SearchService,
   },
   created() {
     console.log(this.$route);
   },
 };
 </script>
+
+<style lang="scss">
+#banner {
+  padding-bottom: 5%;
+  padding-top: 5%;
+}
+</style>

@@ -19,12 +19,10 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView, TokenRefreshView)
 
 from e_librotek_app import views
-from e_librotek_app.views.registerUser import UserRegisterView
 
 urlpatterns = [
     path('register/', views.UserRegisterView.as_view()),
-    path('book/post/', views.BookView.as_view()),
-    path('book/get/', views.GetBookView.as_view()),
+    path('book/', views.BookView.as_view()),
     path('login/', TokenObtainPairView.as_view()),
     path('refresh/', TokenRefreshView.as_view()),
     path('comment/', views.CommentView.as_view()),

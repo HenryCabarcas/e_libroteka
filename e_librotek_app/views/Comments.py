@@ -3,7 +3,7 @@ from datetime import datetime
 from django.conf import settings
 from django.db.models import query
 from django.db.models.query import QuerySet
-from e_librotek_app.models import Comment
+from e_librotek_app.models import Comment, book
 from e_librotek_app.responses_template import *
 from e_librotek_app.serializers import CommentSerializer
 from rest_framework import generics
@@ -20,19 +20,29 @@ class CommentView(generics.RetrieveAPIView):
     permission_classes = (AllowAny,)
 
     def get(self, request, *args, **kwargs):
-        if "book" not in request.data.keys() and "id" not in request.data.keys():
-            return response(400, messages=["There must be the values 'book' or 'id' in the request body."])
+        commentId = self.request.GET.get('id')
+        bookISBN = self.request.GET.get('isbn')
+        if bookISBN == None and commentId == None:
+            return response(400, messages=["There must be the values 'book' or 'id' in the params."])
         query = {}
         try:
-            if "id" in request.data.keys():
-                query["id"] = request.data["id"]
-            if "book" in request.data.keys():
-                query["book"] = request.data["book"]
+            if commentId != None:
+                query["id"] = commentId
+            if bookISBN != None:
+                query["book"] = bookISBN
         except Exception as e:
             return response(400, messages=["There is an error with the request body.", *e.args])
         try:
             comments = self.queryset.filter(**query)
-            print(comments)
+            if len(comments) == 0:
+                ms = [
+                    f"The comment id: {commentId} cannot be found in the database."]if commentId != None else []
+                if bookISBN != None:
+                    ms.append(
+                        f"The book ISBN: {bookISBN} cannot be found in the database.")
+
+                return response(400, messages=ms)
+
             res = [self.serializer_class.to_representation(
                 self.serializer_class, obj=comment) for comment in comments]
             return response(200, result=res)
@@ -81,8 +91,11 @@ class CommentView(generics.RetrieveAPIView):
         except Exception as e:
             return response(400, messages=["There is an error with the request body.", *e.args])
         try:
-            self.queryset.filter(id=request.data["id"]).update(modificationDate=datetime.now(),
-                                                               **request.data["comment"])
+            result = self.queryset.filter(id=request.data["id"])
+            if len(result) == 0:
+                return response(400, messages=[f"The comment id: {request.data['id']} doesn't exist in the database."])
+            result.update(modificationDate=datetime.now(),
+                          **request.data["comment"])
             return response(200)
         except Exception as e:
             return response(500, messages=["There is an internal error", *e.args])

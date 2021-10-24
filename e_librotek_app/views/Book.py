@@ -26,42 +26,34 @@ class BookView(generics.RetrieveAPIView):
             validData = tokenBackend.decode(token, verify=False)
         except:
             pass
-
-        filters = []
-        try:
-            filters = list(request.data["filters"])
-        except:
-            return response(400, messages=["There is no key 'filters' in the request body -> { ... 'filters' : [ ... ] ... }"])
-
-        if len(filters) == 0:
-            return response(400, messages=["The filters field is empty -> 'filters' : []"])
-
         query = {}
         limit = 1024
-        try:
-            limit = request.data["limit"]
-        except:
-            pass
-        try:
-            for filter in filters:
-                if str(filter["option"]).lower() == "title":
-                    query["title__icontains"] = filter["value"]
-                if "token_type" in validData.keys():
-                    if str(filter["option"]).lower() == "isbn":
-                        query["ISBN"] = filter["value"]
-                    elif str(filter["option"]).lower() == "gender":
-                        query["gender"] = filter["value"]
-                    elif str(filter["option"]).lower() == "editorial":
-                        query["editorial__icontains"] = filter["value"]
-        except Exception as e:
-            return response(400, messages=["There is an error with the request body.", *e.args])
+        if self.request.GET.get('limit') != None:
+            limit = self.request.GET.get('limit')
+        if self.request.GET.get('title') != None:
+            query["title__icontains"] = self.request.GET.get('title')
+        if "token_type" in validData.keys():
+            if self.request.GET.get('isbn') != None:
+                query["ISBN"] = self.request.GET.get('isbn')
+            if self.request.GET.get('gender') != None:
+                query["gender__icontains"] = self.request.GET.get('gender')
+            if self.request.GET.get('editorial') != None:
+                query["editorial__icontains"] = self.request.GET.get(
+                    'editorial')
+        if len(query.keys()) == 0:
+            return response(400, messages=["There is an error with the request params."])
         try:
             books = self.queryset.filter(**query)
+            if len(books) == 0:
+                return response(400, messages=["Cannot find that book."])
+            res = []
             start = 0
             end = len(books)
-            try:
-                start = request.data["offset"]["start"]
-                end = request.data["offset"]["end"]
+            if self.request.GET.get('start') != None or self.request.GET.get('end') != None:
+                if self.request.GET.get('start') != None:
+                    start = self.request.GET.get('start')
+                if self.request.GET.get('end') != None:
+                    end = self.request.GET.get('end')
                 if start >= len(books):
                     start = 0
                 if end > len(books):
@@ -72,10 +64,7 @@ class BookView(generics.RetrieveAPIView):
                     end = len(books)
                 else:
                     end += 1
-            except:
-                pass
 
-            res = []
             for i in range(start, end):
                 if i <= limit:
                     serialized = self.serializer_class.to_representation(
@@ -146,8 +135,11 @@ class BookView(generics.RetrieveAPIView):
         except Exception as e:
             return response(400, messages=["There is an error with the request body.", *e.args])
         try:
-            self.queryset.filter(ISBN=request.data["ISBN"]).update(modificationDate=datetime.now(),
-                                                                   ** request.data["book"])
+            result = self.queryset.filter(ISBN=request.data["ISBN"])
+            if len(result) == 0:
+                return response(400, messages=[f"The ISBN: {request.data['ISBN']} doesn't exist in the database."])
+            result.update(
+                modificationDate=datetime.now(), ** request.data["book"])
             return response(200)
         except Exception as e:
             return response(500, messages=["There is an internal error", *e.args])

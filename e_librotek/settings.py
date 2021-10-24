@@ -81,8 +81,7 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    "https://example.com",
-    "https://sub.example.com",
+    "https://e-libroteka-front.herokuapp.com",
     "http://localhost:8080",
 ]
 

@@ -51,11 +51,10 @@ export default {
         this.waitingResults = true;
         this.results = []
         axios
-          .get("https://www.googleapis.com/books/v1/volumes?maxResults=40&q=" + this.query)
+          .get(process.env.VUE_APP_GOOGLE_BOOK_URL + "?maxResults=40&q=" + this.query)
           .then((response) => {
             this.waitingResults = false;
             this.results = response.data.items;
-            console.log(this.results);
 
           }).catch(error => {
             this.waitingResults = false;

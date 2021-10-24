@@ -21,7 +21,6 @@ export default {
   },
   methods: {
     goto() {
-      console.log(this.all)
     }
   }
 }

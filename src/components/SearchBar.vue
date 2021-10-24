@@ -42,10 +42,9 @@ export default {
     search() {
       if (this.query.length > 1) {
         axios
-          .get("https://www.googleapis.com/books/v1/volumes?q=" + this.query)
+          .get(process.env.VUE_APP_GOOGLE_BOOK_URL + "?q=" + this.query)
           .then((response) => {
             this.results = response.data.items;
-            console.log(this.results);
           });
         this.clicked(true);
       }

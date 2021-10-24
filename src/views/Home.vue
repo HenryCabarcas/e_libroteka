@@ -13,10 +13,7 @@ export default {
   name: "Home",
   components: {
     SearchService,
-  },
-  created() {
-    console.log(this.$route);
-  },
+  }
 };
 </script>
 

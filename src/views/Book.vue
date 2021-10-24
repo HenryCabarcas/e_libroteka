@@ -30,11 +30,9 @@ export default {
         },
       ],
     };
-    console.log(this.$route.params);
     axios
       .post("http://localhost:8000/get-book/", body)
       .then((response) => {
-        console.log(response);
         this.book = response.data;
         this.success = 1;
       })

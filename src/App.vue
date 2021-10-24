@@ -26,18 +26,13 @@ import axios from "axios";
 export default {
   name: "App",
   components: { SearchBar },
-  data() {
-    return {
-      bg_url: ""
-    }
-  },
   beforeCreate() {
-    let apiKey = "VKS5Pto4LE5EmgloPZKASfuGUpMbPYrR4lwCwJGERTw"
+    let apiKey = process.env.VUE_APP_UNSPLASH_API_KEY
+    let url = process.env.VUE_APP_UNSPLASH_URL
     axios
-      .get("https://api.unsplash.com/photos/random?query=read&orientation=landscape&client_id=" + apiKey)
+      .get(url + "?query=read&orientation=landscape&client_id=" + apiKey)
       .then(response => {
-        this.bg_url = response.data.urls.regular;
-        document.getElementById("app").style.backgroundImage = `url('${this.bg_url}')`;
+        document.getElementById("app").style.backgroundImage = `url('${response.data.urls.regular}')`;
       })
   }
 };

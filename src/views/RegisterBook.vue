@@ -155,10 +155,10 @@ export default {
             url: this.url.length > 0 ? this.url : null,
           },
         };
+
         axios
-          .post("http://localhost:8000/post-book/", body)
+          .post(process.env.VUE_APP_BACK_END_URL + "book/", body)
           .then((response) => {
-            console.log(response.data);
             this.message = response.data;
             vaToast.init({
               message: "The book was successfully registered",
@@ -166,7 +166,6 @@ export default {
             });
           })
           .catch((response) => {
-            console.log(response);
             vaToast.init({
               message: "The book cannot be registered",
               color: "danger",

@@ -3,3 +3,8 @@
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
 }
+
+.clear {
+  background-color: transparent;
+  border: none;
+}

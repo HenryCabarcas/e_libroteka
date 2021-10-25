@@ -89,9 +89,9 @@ class BookView(generics.RetrieveAPIView):
             if "ISBN" not in request.data["book"].keys():
                 messages.append(
                     "The key 'ISBN' wasn't found in the 'book' object (REQUIRED) -> { ... 'book': { 'ISBN':'XXX' } ...}")
-            elif len(request.data["book"]["ISBN"]) != 10 and len(request.data["book"]["ISBN"]) != 13:
+            elif len(request.data["book"]["ISBN"]) < 6 and len(request.data["book"]["ISBN"]) > 20:
                 messages.append(
-                    "The length of the value 'ISBN' must be 10 or 13 characters")
+                    "The length of the value 'ISBN' must be between 6 and 20 characters")
             if "title" not in request.data["book"].keys():
                 messages.append(
                     "The key 'title' wasn't found in the 'book' object (REQUIRED) -> { ... 'book': { 'title':'XXX' } ...}")

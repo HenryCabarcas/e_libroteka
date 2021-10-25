@@ -3,7 +3,7 @@ import datetime
 
 
 class Book(models.Model):
-    ISBN = models.CharField('ISBN', max_length=13,
+    ISBN = models.CharField('ISBN', max_length=20,
                             unique=True, primary_key=True)
     title = models.CharField('title', max_length=50)
     volume = models.CharField('volume', max_length=50, default="1")

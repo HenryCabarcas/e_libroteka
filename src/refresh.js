@@ -1,9 +1,9 @@
 import axios from "axios";
 export default async function refreshToken() {
     if (window.localStorage.getItem("username") === null) {
-        return false;
+        window.localStorage.setItem("username", "user")
     }
-    const body = {
+    let body = {
         username: window.localStorage.getItem("username"),
         password: process.env.VUE_APP_ANY_USER_PWD
     }

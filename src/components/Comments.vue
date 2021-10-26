@@ -84,7 +84,8 @@
 <script>
 import Comment from "./Comment.vue"
 import axios from "axios"
-import refreshToken from "../refresh"
+import refreshToken from "../refresh";
+
 export default {
   name: "Comments",
   components: {
@@ -167,7 +168,7 @@ export default {
           user: this.username
         }
       }
-      refreshToken().then(res => {
+      this.refreshToken().then(res => {
         const config = {
           headers: {
             "Content-type": "application/json",

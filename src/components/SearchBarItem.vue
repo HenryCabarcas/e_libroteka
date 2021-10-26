@@ -1,9 +1,5 @@
 <template>
-  <div
-    class="sresult-container"
-    @click="goto()"
-    v-if="isbn.length > 0 && !loading"
-  >
+  <div class="sresult-container" @click="goto()" v-if="isbn.length > 0 && !loading">
     <span class="sresult-title">
       {{ title }}
     </span>
@@ -18,7 +14,7 @@
 
 <script>
 import axios from "axios";
-import refreshToken from "../refresh"
+import refreshToken from "../refresh";
 export default {
   name: "SearchBarItem",
   props: {
@@ -30,64 +26,85 @@ export default {
     return {
       isbn: "",
       show: true,
-      loading: false
-    }
+      loading: false,
+    };
   },
-  emits: ['update:show'],
+  emits: ["update:show"],
   methods: {
     goto() {
-      console.log("peticion")
+      console.log("peticion");
       if (!this.loading) {
         this.loading = true;
 
-        refreshToken().then(result => {
+        refreshToken().then((result) => {
           const body = {
             book: {
               ISBN: this.isbn,
               title: this.title,
-              publicationDate: this.all.volumeInfo.publishedDate !== undefined ? this.all.volumeInfo.publishedDate.substr(0, 4) : "0000",
-              gender: this.all.volumeInfo.categories ? this.all.volumeInfo.categories.join(", ") : "Undefined",
-              author: this.author !== undefined && this.author.length > 0 ? this.author : "Undefined",
-              formato: this.all.volumeInfo.printType !== undefined ? this.all.volumeInfo.printType : "Undefined",
-              resume: this.all.volumeInfo.description !== undefined ?
-                this.all.volumeInfo.description : this.all.searchInfo.textSnippet !== undefined ? this.all.searchInfo.textSnippet : "...",
-              url: this.all.volumeInfo.imageLinks.thumbnail !== undefined ? this.all.volumeInfo.imageLinks.thumbnail :
-                this.all.volumeInfo.imageLinks.smallThumbnail !== undefined ? this.all.volumeInfo.imageLinks.smallThumbnail : null,
-              pages: Number(this.all.volumeInfo.pageCount)
-            }
-          }
+              publicationDate:
+                this.all.volumeInfo.publishedDate !== undefined
+                  ? this.all.volumeInfo.publishedDate.substr(0, 4)
+                  : "0000",
+              gender: this.all.volumeInfo.categories
+                ? this.all.volumeInfo.categories.join(", ")
+                : "Undefined",
+              author:
+                this.author !== undefined && this.author.length > 0
+                  ? this.author
+                  : "Undefined",
+              formato:
+                this.all.volumeInfo.printType !== undefined
+                  ? this.all.volumeInfo.printType
+                  : "Undefined",
+              resume:
+                this.all.volumeInfo.description !== undefined
+                  ? this.all.volumeInfo.description
+                  : this.all.searchInfo.textSnippet !== undefined
+                  ? this.all.searchInfo.textSnippet
+                  : "...",
+              url:
+                this.all.volumeInfo.imageLinks.thumbnail !== undefined
+                  ? this.all.volumeInfo.imageLinks.thumbnail
+                  : this.all.volumeInfo.imageLinks.smallThumbnail !== undefined
+                  ? this.all.volumeInfo.imageLinks.smallThumbnail
+                  : null,
+              pages: Number(this.all.volumeInfo.pageCount),
+            },
+          };
           const config = {
             headers: {
               "Content-type": "application/json",
-              "Authorization": `Bearer ${window.localStorage.getItem("access_token")}`,
+              Authorization: `Bearer ${window.localStorage.getItem("access_token")}`,
             },
           };
-          let url = process.env.VUE_APP_BACK_END_URL + "book/"
-          axios.post(url, body, config).then(response => {
-            console.log(response.data)
-            this.$emit('update:show', false)
-            this.$router.push("/book/" + this.isbn)
-          }).catch(err => {
-            this.$emit('update:show', false)
-            this.$router.push("/book/" + this.isbn)
-          })
-
-        })
+          let url = process.env.VUE_APP_BACK_END_URL + "book/";
+          axios
+            .post(url, body, config)
+            .then((response) => {
+              console.log(response.data);
+              this.$emit("update:show", false);
+              this.$router.push("/book/" + this.isbn);
+            })
+            .catch((err) => {
+              this.$emit("update:show", false);
+              this.$router.push("/book/" + this.isbn);
+            });
+        });
       }
-    }
+    },
   },
   beforeMount() {
     let isbns = this.all.volumeInfo.industryIdentifiers;
     if (isbns !== undefined) {
-      let isbnsValues = Array(isbns.map((item) => {
-        let val = String(item.identifier).matchAll("\\d+").next().value
-        return val ? val[0] : ""
-      }));
-      this.isbn = isbnsValues.sort((a, b) => a.length - b.length)[0][0]
-      if (this.isbn.length < 6 || this.isbn.length > 20)
-        this.isbn = ""
+      let isbnsValues = Array(
+        isbns.map((item) => {
+          let val = String(item.identifier).matchAll("\\d+").next().value;
+          return val ? val[0] : "";
+        })
+      );
+      this.isbn = isbnsValues.sort((a, b) => a.length - b.length)[0][0];
+      if (this.isbn.length < 6 || this.isbn.length > 20) this.isbn = "";
     }
-
   },
 };
 </script>

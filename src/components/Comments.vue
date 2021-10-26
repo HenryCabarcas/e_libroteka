@@ -157,12 +157,7 @@ export default {
         this.getComments()
         this.clearComment()
       }
-      const config = {
-        headers: {
-          "Content-type": "application/json",
-          "Authorization": `Bearer ${window.localStorage.getItem("access_token")}`,
-        },
-      };
+
       let url = process.env.VUE_APP_BACK_END_URL + "comment/";
       const body = {
         comment: {
@@ -173,6 +168,12 @@ export default {
         }
       }
       refreshToken().then(res => {
+        const config = {
+          headers: {
+            "Content-type": "application/json",
+            "Authorization": `Bearer ${window.localStorage.getItem("access_token")}`,
+          },
+        };
         axios.post(url, body, config).then(response => {
           done("The comment was submitted.", true)
 
@@ -229,7 +230,7 @@ export default {
 <style lasng="scss">
 .comments {
   display: block;
-  margin: 2rem 5rem;
+  margin: 1rem 1rem;
   padding: 1rem 3rem;
   background-color: rgba(255, 255, 255, 0.739);
   backdrop-filter: blur(5px);

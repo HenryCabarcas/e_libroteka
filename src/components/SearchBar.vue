@@ -1,17 +1,14 @@
 <template>
   <div id="nav-search-bar">
-    <va-input
-      v-model="query"
-      placeholder="Search"
-      @click="clicked(true)"
-      @blur="clicked(false)"
-    />
+    <va-input v-model="query" placeholder="Search" @click="clicked(true)" />
   </div>
   <div id="nav-results" v-if="showList">
     <div v-for="item in this.results" :key="item.id">
       <SearchBarItem
         :title="item.volumeInfo.title"
         :author="item.volumeInfo.authors ? item.volumeInfo.authors[0] : ' '"
+        :all="item"
+        v-model:show="showList"
       />
     </div>
   </div>

@@ -16,8 +16,7 @@
           :messages="ISBNmessage"
           :rules="[
             isbn =>
-              isbn.length == 10 ||
-              isbn.length == 13 ||
+              (isbn.length >= 6 && isbn.length <= 20) ||
               `The ISBN number is invalid.`
           ]"
           label="ISBN"
@@ -26,19 +25,19 @@
         />
         <va-slider
           class="mb-4"
-          id="volume-slider"
-          v-model="volume"
-          max="15"
-          min="1"
-          label="Volume"
+          id="publicationDate-slider"
+          v-model="publicationDate"
+          max="2021"
+          min="-800"
+          label="publication Date"
           track-label-visible
         >
         </va-slider>
         <va-input
           class="mb-4"
-          v-model="editorial"
-          label="Editorial"
-          placeholder="Book editorial."
+          v-model="author"
+          label="author"
+          placeholder="Book author."
         />
         <va-select
           class="mb-4"
@@ -60,6 +59,14 @@
           v-model="url"
           label="Url"
           placeholder="Book url."
+        />
+        <va-input
+          class="mb-4"
+          v-model="pages"
+          label="Pages"
+          placeholder="Pages number"
+          type="number"
+          min="1"
         />
         <va-input
           class="mb-4"
@@ -96,12 +103,13 @@ export default {
     return {
       title: "",
       isbn: "",
-      volume: 1,
-      editorial: "",
+      publicationDate: 2000,
+      author: "",
       gender: "",
       format: "any",
       resume: "",
       url: "",
+      pages: 1,
       ISBNmessage: "Insert a number.",
       formatList: ["any", "pdf", "e-book", "web page", "audiobook"],
       genderList: [
@@ -135,24 +143,23 @@ export default {
         "lgbt",
         "memoir",
         "queer",
-      ],
-      volumeMax: 15,
-      volumeMin: 1,
+      ]
     };
   },
   methods: {
     registerBook(vaToast) {
-      if ((this.isbn.length == 10 || this.isbn.length == 13) && this.title.length > 0) {
+      if ((this.isbn.length >= 6 && this.isbn.length <= 20) && this.title.length > 0) {
         let body = {
           book: {
             ISBN: this.isbn,
             title: this.title,
-            volume: this.volume > 0 ? String.toString(this.volume) : "1",
-            gender: this.gender.length > 0 ? this.gender : "Any",
-            editorial: this.editorial.length > 0 ? this.editorial : "Any",
+            publicationDate: this.publicationDate > 0 ? this.publicationDate.toString().substr(0, 3) : "1",
+            gender: this.gender.length > 0 ? this.gender.join(", ").substr(0, 39) : "Any",
+            author: this.author.length > 0 ? this.author : "Any",
             format: this.format.length > 0 ? this.format : "Any",
             resume: this.resume.length > 0 ? this.resume : "Any",
             url: this.url.length > 0 ? this.url : null,
+            pages: this.pages
           },
         };
 
@@ -178,9 +185,9 @@ export default {
         });
       }
     },
-    verifyVolume() {
-      if (this.volume < 0) this.volume = 0;
-      if (this.volume > 15) this.volume = 15;
+    verifypublicationDate() {
+      if (this.publicationDate < 0) this.publicationDate = 0;
+      if (this.publicationDate > 15) this.publicationDate = 15;
     },
   },
 };
@@ -217,7 +224,7 @@ export default {
   margin-left: 10px;
   margin-right: 10px;
 }
-#volume-slider {
+#publicationDate-slider {
   display: flex;
   align-content: stretch;
   padding-left: 10px;

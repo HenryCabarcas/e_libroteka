@@ -55,6 +55,7 @@ export default {
           .then((response) => {
             this.waitingResults = false;
             this.results = response.data.items;
+            console.log(this.results);
 
           }).catch(error => {
             this.waitingResults = false;

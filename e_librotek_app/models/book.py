@@ -16,4 +16,4 @@ class Book(models.Model):
     url = models.CharField('url', max_length=512, null=True)
     creationDate = models.DateTimeField(default=datetime.datetime.now())
     modificationDate = models.DateTimeField(default=datetime.datetime.now())
-    pages = models.BigIntegerField('pages', max_length=2000, default=0)
+    pages = models.BigIntegerField('pages', max_length=2000, default=0,null=True)

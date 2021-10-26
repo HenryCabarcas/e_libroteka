@@ -4,21 +4,21 @@
       <router-link to="/">
         <img id="e-libroteka" src="@/assets/ELibroteka.png" alt="e-libroteka" />
       </router-link>
-      <router-link to="/about">
-        <va-button flat> About </va-button>
-      </router-link>
     </div>
     <div id="navbar-center" v-if="this.$route.path !== '/'">
       <SearchBar />
     </div>
     <div id="navbar-right">
-      <va-button color="success" gradient class="mr-4">
-        <router-link to="/register-book">Register</router-link>
-      </va-button>
+      <router-link to="/register-book">
+        <va-button color="success" gradient>Register</va-button>
+      </router-link>
+      <router-link to="/about">
+        <va-button flat> About </va-button>
+      </router-link>
     </div>
   </nav>
   <router-view />
-  <h2>Hola mundo</h2>
+  <footer>UNAL</footer>
 </template>
 <script>
 import SearchBar from "@/components/SearchBar.vue";
@@ -27,14 +27,16 @@ export default {
   name: "App",
   components: { SearchBar },
   beforeCreate() {
-    let apiKey = process.env.VUE_APP_UNSPLASH_API_KEY
-    let url = process.env.VUE_APP_UNSPLASH_URL
+    let apiKey = process.env.VUE_APP_UNSPLASH_API_KEY;
+    let url = process.env.VUE_APP_UNSPLASH_URL;
     axios
       .get(url + "?query=read&orientation=landscape&client_id=" + apiKey)
-      .then(response => {
-        document.getElementById("app").style.backgroundImage = `url('${response.data.urls.regular}')`;
-      })
-  }
+      .then((response) => {
+        document.getElementById(
+          "app"
+        ).style.backgroundImage = `url('${response.data.urls.regular}')`;
+      });
+  },
 };
 </script>
 <style lang="scss">
@@ -48,6 +50,7 @@ export default {
   text-align: center;
   color: #2c3e50;
   padding-top: 50px;
+  padding-bottom: 70px;
   background-size: 100%;
   min-height: 100vh;
 }
@@ -93,5 +96,14 @@ export default {
 #e-libroteka {
   display: inline-block;
   height: 100%;
+}
+footer {
+  width: 100%;
+  min-height: 48px;
+  position: absolute;
+  bottom: 0;
+  background-color: #c3c3c381;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
 }
 </style>

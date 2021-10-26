@@ -11,13 +11,15 @@
         </div>
         <div class="book-text">
           <h1>{{ book.title }}</h1>
-          <va-card color="primary" gradient class="book-genders">
-            <va-card-title>Title</va-card-title>
-            <va-card-content
-              >Lorem ipsum dolor sit amet, consectetur adipiscing
-              elit.</va-card-content
-            >
-          </va-card>
+          <div class="book-genders">
+            <va-chip v-for="item in genders" :key="item" flat>
+              {{ item }}
+            </va-chip>
+          </div>
+          <div class="score">
+            <va-rating v-model="score" color="warning" readonly size="medium" />
+            <p>Based on {{ reviews }} opinions.</p>
+          </div>
         </div>
       </div>
       <Comments :isbn="isbn" />
@@ -28,28 +30,37 @@
 
 <script>
 import axios from "axios";
-import Comments from "@/components/Comments.vue"
+import Comments from "@/components/Comments.vue";
 
 export default {
   name: "Book",
   components: {
-    Comments
+    Comments,
   },
   data() {
     return {
       book: {},
       isbn: "",
       success: -1,
+      genders: [],
+      score: 0,
+      reviews: 0,
     };
   },
   beforeMount() {
     this.isbn = this.$route.params.isbn;
-    console.log(this.isbn)
+    console.log(this.isbn);
     axios
       .get(process.env.VUE_APP_BACK_END_URL + "book/?isbn=" + this.isbn)
       .then((response) => {
         this.book = response.data.result[0];
-        console.log(this.book)
+        this.genders = String(this.book.gender).split(",");
+        console.log(this.book);
+        this.book.comments.forEach((item) => {
+          this.reviews += 1;
+          this.score += item.score;
+        });
+        if (this.reviews > 0) this.score /= this.reviews;
         this.success = 1;
       })
       .catch((error) => {

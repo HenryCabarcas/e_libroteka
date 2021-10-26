@@ -5,8 +5,8 @@ from rest_framework import serializers
 class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
-        fields = ['ISBN', 'title', 'volume',
-                  'gender', 'editorial', 'formato', 'resume', 'creationDate', 'modificationDate']
+        fields = ['ISBN', 'title', 'author',
+                  'gender', 'publicationDate', 'formato', 'resume', 'creationDate', 'modificationDate', 'pages']
 
     def to_representation(self, obj):
         book = Book.objects.get(ISBN=obj.ISBN)
@@ -15,12 +15,13 @@ class BookSerializer(serializers.ModelSerializer):
         return {
             "ISBN": book.ISBN,
             "title": book.title,
-            "volume": book.volume,
+            "author": book.author,
             "gender": book.gender,
-            "editorial": book.editorial,
+            "publicationDate": book.publicationDate,
             "format": book.formato,
             "resume": book.resume,
             "url": book.url,
+            "pages": book.pages,
             "comments": [
                 {
                     "id": item.id,

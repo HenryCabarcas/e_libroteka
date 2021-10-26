@@ -8,8 +8,8 @@ from rest_framework import generics
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.backends import TokenBackend
 
-bookColumns = ['ISBN', 'title', 'volume',
-               'gender', 'editorial', 'formato', 'resume', 'creationDate', 'modificationDate']
+bookColumns = ['ISBN', 'title', 'author',
+               'gender', 'publicationDate', 'formato', 'resume', 'creationDate', 'modificationDate']
 
 
 class BookView(generics.RetrieveAPIView):
@@ -37,9 +37,11 @@ class BookView(generics.RetrieveAPIView):
                 query["ISBN"] = self.request.GET.get('isbn')
             if self.request.GET.get('gender') != None:
                 query["gender__icontains"] = self.request.GET.get('gender')
-            if self.request.GET.get('editorial') != None:
-                query["editorial__icontains"] = self.request.GET.get(
-                    'editorial')
+            if self.request.GET.get('author') != None:
+                query["author__icontains"] = self.request.GET.get('author')
+            if self.request.GET.get('publicationDate') != None:
+                query["publicationDate"] = self.request.GET.get(
+                    'publicationDate')
         if len(query.keys()) == 0:
             return response(400, messages=["There is an error with the request params."])
         try:

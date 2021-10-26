@@ -32,9 +32,9 @@ class BookView(generics.RetrieveAPIView):
             limit = self.request.GET.get('limit')
         if self.request.GET.get('title') != None:
             query["title__icontains"] = self.request.GET.get('title')
+        if self.request.GET.get('isbn') != None:
+            query["ISBN"] = self.request.GET.get('isbn')
         if "token_type" in validData.keys():
-            if self.request.GET.get('isbn') != None:
-                query["ISBN"] = self.request.GET.get('isbn')
             if self.request.GET.get('gender') != None:
                 query["gender__icontains"] = self.request.GET.get('gender')
             if self.request.GET.get('author') != None:

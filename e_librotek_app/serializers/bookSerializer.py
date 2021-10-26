@@ -5,7 +5,7 @@ from rest_framework import serializers
 class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
-        fields = ['ISBN', 'title', 'author',
+        fields = ['ISBN', 'title', 'author', 'url',
                   'gender', 'publicationDate', 'formato', 'resume', 'creationDate', 'modificationDate', 'pages']
 
     def to_representation(self, obj):

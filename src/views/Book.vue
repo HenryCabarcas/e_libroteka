@@ -65,7 +65,7 @@
           {{ book.resume }}
         </p>
       </div>
-      <Comments :isbn="isbn" @change="forceUpdateInfo()" />
+      <Comments :isbn="isbn" />
     </div>
     <div v-if="success === 0">
       <h1><b>404</b>: Not Found</h1>

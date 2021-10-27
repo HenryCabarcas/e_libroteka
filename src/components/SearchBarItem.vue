@@ -46,11 +46,13 @@ export default {
                   : "0000",
               gender: this.all.volumeInfo.categories
                 ? this.all.volumeInfo.categories.join(", ")
-                : "Undefined",
+                : "Any",
               author:
-                this.author !== undefined && this.author.length > 0
-                  ? this.author
-                  : "Undefined",
+                this.author !== undefined
+                  ? this.author.length > 0
+                    ? this.author
+                    : "Unknown Author"
+                  : "Unknown Author",
               formato:
                 this.all.volumeInfo.printType !== undefined
                   ? this.all.volumeInfo.printType
@@ -62,10 +64,10 @@ export default {
                   ? this.all.searchInfo.textSnippet
                   : "...",
               url:
-                this.all.volumeInfo.imageLinks.thumbnail !== undefined
-                  ? this.all.volumeInfo.imageLinks.thumbnail
-                  : this.all.volumeInfo.imageLinks.smallThumbnail !== undefined
-                  ? this.all.volumeInfo.imageLinks.smallThumbnail
+                this.all.volumeInfo.imageLinks?.thumbnail !== undefined
+                  ? this.all.volumeInfo.imageLinks?.thumbnail
+                  : this.all.volumeInfo.imageLinks?.smallThumbnail !== undefined
+                  ? this.all.volumeInfo.imageLinks?.smallThumbnail
                   : null,
               pages: Number(this.all.volumeInfo.pageCount),
             },
@@ -103,9 +105,6 @@ export default {
       this.isbn = isbnsValues.sort((a, b) => a.length - b.length)[0][0];
       if (this.isbn.length < 6 || this.isbn.length > 20) this.isbn = "";
     }
-  },
-  beforeRouteUpdate(to, from, next) {
-    next();
   },
 };
 </script>

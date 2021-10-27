@@ -65,7 +65,7 @@
           {{ book.resume }}
         </p>
       </div>
-      <Comments :isbn="isbn" />
+      <Comments :isbn="isbn" @change="forceUpdateInfo()" />
     </div>
     <div v-if="success === 0">
       <h1><b>404</b>: Not Found</h1>
@@ -76,7 +76,7 @@
 <script>
 import axios from "axios";
 import Comments from "@/components/Comments.vue";
-
+import { useRouter } from "vue-router";
 export default {
   name: "Book",
   components: {
@@ -91,28 +91,56 @@ export default {
       authors: [],
       score: 0,
       reviews: 0,
+      loading: false,
+      upt: true,
     };
   },
+  methods: {
+    forceUpdateInfo() {
+      this.upt = false;
+      this.updateInfo();
+    },
+    updateInfo() {
+      if (!this.loading && !this.upt) {
+        this.loading = true;
+        this.isbn = this.$route.params.isbn;
+        console.log(this.isbn);
+        axios
+          .get(process.env.VUE_APP_BACK_END_URL + "book/?isbn=" + this.isbn)
+          .then((response) => {
+            this.book = response.data.result[0];
+            this.genders = String(this.book.gender).split(",");
+            this.authors = String(this.book.author).split(",");
+            console.log(this.book);
+            this.book.comments.forEach((item) => {
+              this.reviews += 1;
+              this.score += item.score;
+            });
+            if (this.reviews > 0) this.score /= this.reviews;
+            this.success = 1;
+            this.upt = true;
+            this.loading = false;
+          })
+          .catch((error) => {
+            this.loading = false;
+            this.upt = true;
+            this.success = 0;
+          });
+      }
+    },
+  },
+
+  updated() {
+    this.updateInfo();
+  },
   beforeMount() {
-    this.isbn = this.$route.params.isbn;
-    console.log(this.isbn);
-    axios
-      .get(process.env.VUE_APP_BACK_END_URL + "book/?isbn=" + this.isbn)
-      .then((response) => {
-        this.book = response.data.result[0];
-        this.genders = String(this.book.gender).split(",");
-        this.authors = String(this.book.author).split(",");
-        console.log(this.book);
-        this.book.comments.forEach((item) => {
-          this.reviews += 1;
-          this.score += item.score;
-        });
-        if (this.reviews > 0) this.score /= this.reviews;
-        this.success = 1;
-      })
-      .catch((error) => {
-        this.success = 0;
-      });
+    this.upt = false;
+    this.updateInfo();
+  },
+  beforeUpdate() {
+    if (!String(useRouter().currentRoute.value.path).includes(this.isbn)) {
+      this.upt = false;
+    }
   },
 };
 </script>

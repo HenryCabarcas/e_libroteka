@@ -1,5 +1,12 @@
 <template>
   <div id="search-results">
+    <div class="results-titles">
+      <span class="item-title"></span>
+      <span class="item-title">Title</span>
+      <span class="item-authors">Author/s</span>
+      <span class="item-genders">Gender/s</span>
+      <span class="item-pages">Pages</span>
+    </div>
     <div v-for="item in results" :key="item.id">
       <SearchServiceOne
         :all="item"
@@ -18,16 +25,16 @@
 </template>
 
 <script>
-import SearchServiceOne from "./SearchServiceOne.vue"
+import SearchServiceOne from "./SearchServiceOne.vue";
 export default {
   name: "SearchServiceResults",
   components: {
-    SearchServiceOne
+    SearchServiceOne,
   },
   props: {
-    results: Array
-  }
-}
+    results: Array,
+  },
+};
 </script>
 
 <style>
@@ -50,5 +57,38 @@ export default {
   100% {
     transform: translateY(0);
   }
+}
+.results-titles {
+  display: grid;
+  width: 100%;
+  text-align: left;
+  vertical-align: center;
+  align-items: center;
+  padding: 4px;
+  grid-column-gap: 10px;
+  grid-template-columns: 80px 35% 20% 20% 10%;
+  font-weight: 700;
+}
+.item-title {
+  display: inline-block;
+  grid-column-start: 2;
+  grid-column-end: 3;
+  width: fit-content;
+  font-weight: 600;
+}
+.item-authors {
+  display: inline-block;
+  grid-column-start: 3;
+  grid-column-end: 4;
+}
+.item-genders {
+  display: inline-block;
+  grid-column-start: 4;
+  grid-column-end: 5;
+}
+.item-pages {
+  display: inline-block;
+  grid-column-start: 5;
+  grid-column-end: 6;
 }
 </style>

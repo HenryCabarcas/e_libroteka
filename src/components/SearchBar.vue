@@ -7,7 +7,7 @@
       v-for="item in this.results"
       :key="item.id"
       :title="item.volumeInfo.title"
-      :author="item.volumeInfo.authors ? item.volumeInfo.authors[0] : ' '"
+      :author="item.volumeInfo.authors ? item.volumeInfo.authors[0] : ''"
       :all="item"
       v-model:show="showList"
     />
@@ -96,7 +96,7 @@ export default {
 .back {
   z-index: 0;
   display: block;
-  position: absolute;
+  position: fixed;
   left: 0;
   top: 0;
   width: 100vw;

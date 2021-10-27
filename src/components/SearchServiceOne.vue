@@ -47,11 +47,11 @@ export default {
                 this.all.volumeInfo.publishedDate !== undefined
                   ? this.all.volumeInfo.publishedDate.substr(0, 4)
                   : "0000",
-              gender: this.genders.length > 0 ? this.genders.join(", ") : "Undefined",
+              gender: this.genders.length > 0 ? this.genders.join(", ") : "Any",
               author:
                 this.authors !== undefined && this.authors.length > 0
                   ? this.authors.join(", ")
-                  : "Undefined",
+                  : "Unknown Author",
               formato:
                 this.all.volumeInfo.printType !== undefined
                   ? this.all.volumeInfo.printType
@@ -81,7 +81,6 @@ export default {
           axios
             .post(url, body, config)
             .then((response) => {
-              console.log(response.data);
               this.$router.push({ path: "/book/" + this.isbn });
             })
             .catch((err) => {
@@ -104,9 +103,6 @@ export default {
       if (this.isbn.length < 6 || this.isbn.length > 20) this.isbn = "";
     }
   },
-  beforeRouteLeave(to, from, next) {
-    this.$forceUpdate();
-  },
 };
 </script>
 
@@ -115,13 +111,14 @@ export default {
   display: grid;
   width: 100%;
   height: 120px;
-  grid-column-gap: 10px;
-  padding: 4px;
   text-align: left;
   vertical-align: center;
   align-items: center;
+  padding: 4px;
+  grid-column-gap: 10px;
   grid-template-columns: 80px 35% 20% 20% 10%;
   margin-bottom: 2px;
+  overflow: hidden;
   cursor: pointer;
   img {
     margin-left: 4px;
@@ -131,29 +128,29 @@ export default {
     grid-column-start: 1;
     grid-column-end: 2;
   }
+  span {
+    display: inline-block;
+    overflow: hidden;
+  }
 }
 .item-container:hover {
   background-color: rgba(0, 0, 0, 0.25);
 }
 .item-title {
-  display: inline-block;
   grid-column-start: 2;
   grid-column-end: 3;
   width: fit-content;
   font-weight: 600;
 }
 .item-authors {
-  display: inline-block;
   grid-column-start: 3;
   grid-column-end: 4;
 }
 .item-genders {
-  display: inline-block;
   grid-column-start: 4;
   grid-column-end: 5;
 }
 .item-pages {
-  display: inline-block;
   grid-column-start: 5;
   grid-column-end: 6;
 }

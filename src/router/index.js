@@ -24,7 +24,7 @@ const routes = [
   {
     path: '/book/:isbn',
     name: "Book",
-    component: Book
+    component: Book,
   }
 ]
 

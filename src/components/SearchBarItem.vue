@@ -32,7 +32,6 @@ export default {
   emits: ["update:show"],
   methods: {
     goto() {
-      console.log("peticion");
       if (!this.loading) {
         this.loading = true;
 
@@ -59,7 +58,7 @@ export default {
               resume:
                 this.all.volumeInfo.description !== undefined
                   ? this.all.volumeInfo.description
-                  : this.all.searchInfo.textSnippet !== undefined
+                  : this.all.searchInfo !== undefined
                   ? this.all.searchInfo.textSnippet
                   : "...",
               url:
@@ -81,13 +80,12 @@ export default {
           axios
             .post(url, body, config)
             .then((response) => {
-              console.log(response.data);
+              this.$router.push({ path: "/book/" + this.isbn });
               this.$emit("update:show", false);
-              this.$router.push("/book/" + this.isbn);
             })
             .catch((err) => {
+              this.$router.push({ path: "/book/" + this.isbn });
               this.$emit("update:show", false);
-              this.$router.push("/book/" + this.isbn);
             });
         });
       }
@@ -105,6 +103,9 @@ export default {
       this.isbn = isbnsValues.sort((a, b) => a.length - b.length)[0][0];
       if (this.isbn.length < 6 || this.isbn.length > 20) this.isbn = "";
     }
+  },
+  beforeRouteUpdate(to, from, next) {
+    next();
   },
 };
 </script>

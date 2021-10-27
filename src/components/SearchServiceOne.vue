@@ -59,7 +59,7 @@ export default {
               resume:
                 this.all.volumeInfo.description !== undefined
                   ? this.all.volumeInfo.description
-                  : this.all.searchInfo.textSnippet !== undefined
+                  : this.all.searchInfo !== undefined
                   ? this.all.searchInfo.textSnippet
                   : "...",
               url:
@@ -82,10 +82,10 @@ export default {
             .post(url, body, config)
             .then((response) => {
               console.log(response.data);
-              this.$router.push("/book/" + this.isbn);
+              this.$router.push({ path: "/book/" + this.isbn });
             })
             .catch((err) => {
-              this.$router.push("/book/" + this.isbn);
+              this.$router.push({ path: "/book/" + this.isbn });
             });
         });
       }
@@ -103,6 +103,9 @@ export default {
       this.isbn = isbnsValues.sort((a, b) => a.length - b.length)[0][0];
       if (this.isbn.length < 6 || this.isbn.length > 20) this.isbn = "";
     }
+  },
+  beforeRouteLeave(to, from, next) {
+    this.$forceUpdate();
   },
 };
 </script>

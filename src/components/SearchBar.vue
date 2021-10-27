@@ -2,7 +2,7 @@
   <div id="nav-search-bar">
     <va-input v-model="query" placeholder="Search" @click="clicked(true)" />
   </div>
-  <div id="nav-results" v-if="showList" @blur="clicked(false)">
+  <div id="nav-results" v-if="showList">
     <SearchBarItem
       v-for="item in this.results"
       :key="item.id"
@@ -12,6 +12,7 @@
       v-model:show="showList"
     />
   </div>
+  <div class="back" @click="clicked(false)" v-if="showList"></div>
 </template>
 <script>
 import axios from "axios";
@@ -32,6 +33,7 @@ export default {
   created() {
     this.debouncedGetAnswer = _.debounce(this.search, 500);
   },
+
   methods: {
     clicked(value) {
       this.showList = value;
@@ -90,5 +92,14 @@ export default {
   -webkit-backdrop-filter: blur(2.5px);
   box-shadow: 20px 20px 60px #0000009b, -20px -20px 60px#0303032F;
   z-index: 12;
+}
+.back {
+  z-index: 0;
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
 }
 </style>

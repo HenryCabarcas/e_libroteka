@@ -20,25 +20,24 @@
 <script>
 export default {
   name: "Comment",
-  components: {
-  },
+  components: {},
   props: {
-    info: Object
+    info: Object,
   },
   data() {
-    let dt = this.info.creationDate//new Date(this.info.creationDate.substring(0, this.info.creationDate.length - 2));
-    let date = dt.toDateString() + " - " + dt.toLocaleTimeString()
+    let dt = this.info.creationDate; //new Date(this.info.creationDate.substring(0, this.info.creationDate.length - 2));
+    let date = dt.toDateString() + " - " + dt.toLocaleTimeString();
     return {
-      date: date
-    }
-  }
-}
+      date: date,
+    };
+  },
+};
 </script>
 
 <style lang="scss">
 .comment-container {
   display: block;
-  width: 70%;
+  width: 100%;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 4px;

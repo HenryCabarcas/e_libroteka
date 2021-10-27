@@ -10,7 +10,7 @@
     </div>
     <div id="navbar-right">
       <router-link to="/register-book">
-        <va-button color="success" gradient>Register</va-button>
+        <va-button color="success" flat>Register</va-button>
       </router-link>
       <router-link to="/about">
         <va-button flat> About </va-button>
@@ -18,7 +18,13 @@
     </div>
   </nav>
   <router-view />
-  <footer>UNAL</footer>
+  <div id="footer">
+    <img src="./assets/mintic.png" />
+    <div>
+      <p>"La literatura es el arte de la palabra" - <b>Manuel Gayol Fernández</b></p>
+    </div>
+    <img src="./assets/unal.png" />
+  </div>
 </template>
 <script>
 import SearchBar from "@/components/SearchBar.vue";
@@ -42,6 +48,7 @@ export default {
 <style lang="scss">
 :root {
   font-family: Avenir, sans-serif;
+  -webkit-column-break-inside: avoid;
 }
 #app {
   font-family: Avenir, sans-serif;
@@ -53,6 +60,7 @@ export default {
   padding-bottom: 70px;
   background-size: 100%;
   min-height: 100vh;
+  overflow: visible;
 }
 #navbar {
   position: fixed;
@@ -91,19 +99,40 @@ export default {
   width: 70%;
 }
 #navbar-right {
-  display: block;
+  display: flex;
+  flex-direction: row;
 }
 #e-libroteka {
   display: inline-block;
   height: 100%;
 }
-footer {
-  width: 100%;
-  min-height: 48px;
+#footer {
+  display: flex;
   position: absolute;
+  flex-direction: row;
+  justify-content: space-evenly;
+  justify-items: center;
+  align-items: center;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  width: 100%;
+  height: 48px;
   bottom: 0;
   background-color: #c3c3c381;
-  border-top-left-radius: 24px;
-  border-top-right-radius: 24px;
+  padding: 0 1rem;
+  img {
+    height: 36px;
+    display: block;
+  }
+  div {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    p {
+      font-size: 16pt;
+    }
+  }
 }
 </style>

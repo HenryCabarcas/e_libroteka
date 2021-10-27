@@ -1,7 +1,7 @@
 <template>
   <div class="comments" id="comments">
     <div class="clear comment-input">
-      <h1>Comments</h1>
+      <h1 class="comments-title">Comments</h1>
     </div>
     <div class="comment-input">
       <va-input
@@ -229,19 +229,16 @@ export default {
 .comments {
   display: block;
   margin: 1rem 1rem;
-  padding: 1rem 3rem;
+  padding: 1rem 1.25rem;
   background-color: rgba(255, 255, 255, 0.739);
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   border-radius: 12px;
   text-align: left;
 }
-h1 {
-  font-size: 24pt;
-}
 .comment-input {
   display: block;
-  width: 70%;
+  width: 100%;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 4px;
@@ -249,6 +246,9 @@ h1 {
   border-radius: 6px;
   border: 1px rgba(206, 206, 206, 0.568) solid;
   overflow: hidden;
+}
+.comments-title {
+  font-size: 18pt;
 }
 .add-comment-btns {
   display: flex;
